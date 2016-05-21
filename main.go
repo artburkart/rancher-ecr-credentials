@@ -21,9 +21,7 @@ type Rancher struct {
 	URL          string
 	AccessKey    string
 	SecretKey    string
-	AWSAccessKey string
-	AWSSecretKey string
-	AWSRegion    string
+    AWSRegion    string
 }
 
 func main() {
@@ -31,9 +29,7 @@ func main() {
 		URL:          os.Getenv("CATTLE_URL"),
 		AccessKey:    os.Getenv("CATTLE_ACCESS_KEY"),
 		SecretKey:    os.Getenv("CATTLE_SECRET_KEY"),
-		AWSAccessKey: os.Getenv("AWS_ACCESS_KEY_ID"),
-		AWSSecretKey: os.Getenv("AWS_SECRET_ACCESS_KEY"),
-		AWSRegion:    os.Getenv("AWS_REGION"),
+        AWSRegion:    os.Getenv("AWS_REGION"),
 	}
 
 	err := updateEcr(vargs)
@@ -54,8 +50,7 @@ func main() {
 func updateEcr(vargs Rancher) error {
 	fmt.Printf("Updating ECR Credentials\n")
 	ecrClient := ecr.New(session.New(&aws.Config{
-		Region:      aws.String(vargs.AWSRegion),
-		Credentials: credentials.NewStaticCredentials(vargs.AWSAccessKey, vargs.AWSSecretKey, ""),
+		Region: aws.String(vargs.AWSRegion)
 	}))
 
 	resp, err := ecrClient.GetAuthorizationToken(&ecr.GetAuthorizationTokenInput{})
